@@ -2,8 +2,11 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
@@ -16,6 +19,10 @@ func main() {
 	fmt.Println(" Server is running ")
 
 	e := echo.New()
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
@@ -28,7 +35,7 @@ func main() {
 		return c.JSON(http.StatusOK, map[string]string{"status": "ok"})
 	})
 
-	apiToken := "supersecrettoken"
+	apiToken := os.Getenv("MICROFRONTEND_API_TOKEN")
 
 	protected := e.Group("/api")
 	protected.Use(authmw.TokenAuthMiddleware(apiToken))
