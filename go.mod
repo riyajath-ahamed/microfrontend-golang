@@ -6,6 +6,7 @@ toolchain go1.24.6
 
 require (
 	github.com/google/uuid v1.6.0
+	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.13.4
 )
 
